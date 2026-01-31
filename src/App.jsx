@@ -133,11 +133,14 @@ function App() {
     abortControllerRef.current = new AbortController();
 
     try {
-      const response = await axios.post(
-        '/api/assist',
-        { text, sourceLang: language },
-        { signal: abortControllerRef.current.signal }
-      );
+    
+      const WORKER_URL = import.meta.env.VITE_WORKER_URL;
+
+const response = await axios.post(
+  `${WORKER_URL}/api/assist`,
+  { text, sourceLang: language },
+  { signal: abortControllerRef.current.signal }
+);
 
       if (response.data?.success) {
         setTranslations({
